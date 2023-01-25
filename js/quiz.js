@@ -60,14 +60,38 @@ class QuizModel {
 
     this.score = 0;
     this.questionIndex = 1;
+    this.wrongAnswer = 0;
+    this.correctAnswer = 0;
+  }
+
+  checkAnswer(chosenAnswer) {
+    if (this.getCorrectAnswer() === chosenAnswer) {
+      this.increaseScore();
+    } else {
+      this.decreaseScore();
+    }
+
+    this.switchToNextQuestion();
+  }
+
+  isLastQuestion() {
+    if (this.questionIndex === this.quiz.questions.length + 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   increaseScore() {
     this.score += 100;
+    this.correctAnswer++;
+    this.wrongAnswer--;
   }
 
   decreaseScore() {
     this.score -= 100;
+    this.correctAnswer--;
+    this.wrongAnswer++;
   }
 
   switchToNextQuestion() {
@@ -81,11 +105,39 @@ class QuizModel {
 
     return question;
   }
+
+  getCorrectAnswer() {
+    const [correctAnswer] = this.getCurrentQuestion().answers.filter(
+      (answer) => answer.isCorrect
+    );
+
+    return correctAnswer.answer;
+  }
+
+  getResultData() {
+    return {
+      score: this.score,
+      correctAnswer: this.correctAnswer,
+      wrongAnswer: this.wrongAnswer,
+    };
+  }
 }
 
 class QuizController {
   constructor(model) {
     this.model = model;
+  }
+
+  answerBtnHandler(chosenAnswer) {
+    this.model.checkAnswer(chosenAnswer);
+  }
+
+  isLastQuestion() {
+    return this.model.isLastQuestion();
+  }
+
+  getResultData() {
+    return this.model.getResultData();
   }
 
   getCurrentQuestion() {
@@ -110,6 +162,43 @@ class QuizView {
     this.controller = controller;
 
     this.render();
+    this.bindListeners();
+  }
+
+  onAnswerBtnClick(e) {
+    const currentAnswer = e.target.innerText;
+    this.controller.answerBtnHandler(currentAnswer);
+
+    if (this.controller.isLastQuestion()) {
+      this.renderResult();
+    } else {
+      this.render();
+    }
+  }
+
+  renderResult() {
+    const resultScreen = document.querySelector('.result');
+    resultScreen.classList.remove('display-none');
+    const gameScreen = document.querySelector('.game');
+    gameScreen.classList.add('display-none');
+
+    const totalScoreScreen = document.querySelector('.result__total-score');
+    const corectAnswerScreen = document.querySelector(
+      '.result__correct-answer-amount'
+    );
+    const wrongAnswerScreen = document.querySelector(
+      '.result__wrong-answer-amount'
+    );
+
+    totalScoreScreen.innerText = `Total score: ${
+      this.controller.getResultData().score
+    }`;
+    corectAnswerScreen.innerText = `Correct answers: ${
+      this.controller.getResultData().correctAnswer
+    }`;
+    wrongAnswerScreen.innerText = `Wrong answers: ${
+      this.controller.getResultData().wrongAnswer
+    }`;
   }
 
   render() {
@@ -153,6 +242,14 @@ class QuizView {
     const categoryScreen = document.querySelector('.header__quiz-category');
 
     categoryScreen.innerText = this.controller.getCategory();
+  }
+
+  bindListeners() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) =>
+      answerBtn.addEventListener('click', (e) => this.onAnswerBtnClick(e))
+    );
   }
 }
 
