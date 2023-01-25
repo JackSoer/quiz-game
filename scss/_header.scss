@@ -1,0 +1,29 @@
+.header {
+  padding: 5px;
+  min-height: 10vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  @include set-background($extra-light-purple);
+  @include center;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+
+  &__info {
+    text-align: center;
+    font-weight: 700;
+  }
+
+  &__quiz-category {
+    font-size: 25px;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+
+  &__score {
+    font-size: 20px;
+  }
+}
