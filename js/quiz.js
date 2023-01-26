@@ -116,7 +116,7 @@ class QuizModel {
   }
 
   checkAnswer(chosenAnswer) {
-    if (this.getCorrectAnswer() === chosenAnswer) {
+    if (this.isCorrectAnswer(chosenAnswer)) {
       this.increaseScore();
     } else {
       this.decreaseScore();
@@ -178,6 +178,14 @@ class QuizModel {
       return false;
     }
   }
+
+  isCorrectAnswer(chosenAnswer) {
+    if (this.getCorrectAnswer() === chosenAnswer) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 class QuizController {
@@ -199,6 +207,10 @@ class QuizController {
 
   isLastQuestion() {
     return this.model.isLastQuestion();
+  }
+
+  isCorrectAnswer(chosenAnswer) {
+    return this.model.isCorrectAnswer(chosenAnswer);
   }
 
   isNewBestScore() {
@@ -240,12 +252,19 @@ class QuizView {
 
   onAnswerBtnClick(e) {
     const currentAnswer = e.target.innerText;
+
+    if (this.controller.isCorrectAnswer(currentAnswer)) {
+      e.target.classList.add('game__correct-answer');
+    } else {
+      e.target.classList.add('game__wrong-answer');
+    }
+
     this.controller.answerBtnHandler(currentAnswer);
 
     if (this.controller.isLastQuestion()) {
-      this.showResult();
+      setTimeout(() => this.showResult(), 500);
     } else {
-      this.showQuiz();
+      setTimeout(() => this.showQuiz(), 500);
     }
   }
 
@@ -320,6 +339,16 @@ class QuizView {
     header.classList.remove('display-none');
 
     this.renderQuiz();
+    this.clearColorOnBtn();
+  }
+
+  clearColorOnBtn() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) => {
+      answerBtn.classList.remove('game__correct-answer');
+      answerBtn.classList.remove('game__wrong-answer');
+    });
   }
 
   renderQuiz() {
