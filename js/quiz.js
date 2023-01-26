@@ -103,6 +103,7 @@ class QuizModel {
   saveBestScore() {
     if (this.bestScore === null) {
       this.bestScore = this.score;
+      this.isNewBestScore = true;
 
       localStorage.setItem('bestScore', String(this.bestScore));
     } else if (this.score > this.bestScore) {
@@ -123,6 +124,10 @@ class QuizModel {
     }
 
     this.switchToNextQuestion();
+
+    if (this.isLastQuestion()) {
+      this.saveBestScore();
+    }
   }
 
   restartQuiz() {
@@ -195,10 +200,6 @@ class QuizController {
 
   answerBtnHandler(chosenAnswer) {
     this.model.checkAnswer(chosenAnswer);
-
-    if (this.isLastQuestion()) {
-      this.model.saveBestScore();
-    }
   }
 
   restartBtnHandler() {
