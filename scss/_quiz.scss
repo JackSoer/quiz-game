@@ -1,5 +1,5 @@
 .game {
-  padding: 12vh 0 0 0;
+  padding: 11vh 0 0 0;
   overflow-y: hidden;
   min-height: 100vh;
   background: linear-gradient(180deg, $dark-purple 0%, $light-purple 100%);
@@ -9,7 +9,7 @@
     height: 30vh;
     box-shadow: $extra-dark-purple 0 0 10px;
     border-radius: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 
     &-item {
       border: 3px $extra-light-purple solid;
@@ -27,7 +27,7 @@
   }
 
   &__question {
-    margin: 25px 0;
+    margin: 3vh 0;
     text-shadow: $extra-dark-purple 0 0 10px;
     font-size: 20px;
   }

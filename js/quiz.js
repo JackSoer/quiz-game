@@ -82,15 +82,20 @@ class QuizModel {
     }
   }
 
+  restartQuiz() {
+    this.questionIndex = 1;
+    this.score = 0;
+    this.correctAnswer = 0;
+    this.wrongAnswer = 0;
+  }
+
   increaseScore() {
     this.score += 100;
     this.correctAnswer++;
-    this.wrongAnswer--;
   }
 
   decreaseScore() {
     this.score -= 100;
-    this.correctAnswer--;
     this.wrongAnswer++;
   }
 
@@ -132,6 +137,10 @@ class QuizController {
     this.model.checkAnswer(chosenAnswer);
   }
 
+  restartBtnHandler() {
+    this.model.restartQuiz();
+  }
+
   isLastQuestion() {
     return this.model.isLastQuestion();
   }
@@ -161,7 +170,7 @@ class QuizView {
   constructor(controller) {
     this.controller = controller;
 
-    this.render();
+    this.showQuiz();
     this.bindListeners();
   }
 
@@ -170,18 +179,30 @@ class QuizView {
     this.controller.answerBtnHandler(currentAnswer);
 
     if (this.controller.isLastQuestion()) {
-      this.renderResult();
+      this.showResult();
     } else {
-      this.render();
+      this.showQuiz();
     }
   }
 
-  renderResult() {
+  onRestartBtnClick() {
+    this.controller.restartBtnHandler();
+
+    this.showQuiz();
+  }
+
+  showResult() {
     const resultScreen = document.querySelector('.result');
     resultScreen.classList.remove('display-none');
     const gameScreen = document.querySelector('.game');
     gameScreen.classList.add('display-none');
+    const header = document.querySelector('.header');
+    header.classList.add('display-none');
 
+    this.renderResultData();
+  }
+
+  renderResultData() {
     const totalScoreScreen = document.querySelector('.result__total-score');
     const corectAnswerScreen = document.querySelector(
       '.result__correct-answer-amount'
@@ -201,7 +222,18 @@ class QuizView {
     }`;
   }
 
-  render() {
+  showQuiz() {
+    const resultScreen = document.querySelector('.result');
+    resultScreen.classList.add('display-none');
+    const gameScreen = document.querySelector('.game');
+    gameScreen.classList.remove('display-none');
+    const header = document.querySelector('.header');
+    header.classList.remove('display-none');
+
+    this.renderQuiz();
+  }
+
+  renderQuiz() {
     this.displayQuestion();
     this.displayAnswers();
     this.displayQuestionCounter();
@@ -246,10 +278,12 @@ class QuizView {
 
   bindListeners() {
     const answerBtns = document.querySelectorAll('.game__answers-item');
+    const restartBtn = document.querySelector('.result__game-restart');
 
     answerBtns.forEach((answerBtn) =>
       answerBtn.addEventListener('click', (e) => this.onAnswerBtnClick(e))
     );
+    restartBtn.addEventListener('click', () => this.onRestartBtnClick());
   }
 }
 
