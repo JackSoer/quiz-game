@@ -55,13 +55,60 @@ class QuizModel {
             { answer: 'Captain America', isCorrect: false },
           ],
         },
+        {
+          id: 6,
+          question: 'What was Superman’s birth name?',
+          answers: [
+            { answer: 'Li', isCorrect: false },
+            { answer: 'Jack', isCorrect: false },
+            { answer: 'Kal-El', isCorrect: true },
+            { answer: 'Nick', isCorrect: false },
+          ],
+        },
+        {
+          id: 7,
+          question: 'What is the name of Batman’s butler?',
+          answers: [
+            { answer: 'John', isCorrect: false },
+            { answer: 'Domesto', isCorrect: false },
+            { answer: 'Alex', isCorrect: false },
+            { answer: 'Alfred', isCorrect: true },
+          ],
+        },
+        {
+          id: 8,
+          question: 'Who is Green Lantern’s nemesis?',
+          answers: [
+            { answer: 'Calisto', isCorrect: false },
+            { answer: 'Sinestro', isCorrect: true },
+            { answer: 'Carnel', isCorrect: false },
+            { answer: 'Jonatan', isCorrect: false },
+          ],
+        },
       ],
     };
 
-    this.score = 0;
     this.questionIndex = 1;
+    if (localStorage.getItem('bestScore') !== null) {
+      this.bestScore = Number(localStorage.getItem('bestScore'));
+    } else {
+      this.bestScore = 0;
+    }
+    this.isNewBestScore = false;
+    this.score = 0;
     this.wrongAnswer = 0;
     this.correctAnswer = 0;
+  }
+
+  saveBestScore() {
+    if (this.score > this.bestScore) {
+      this.bestScore = this.score;
+      this.isNewBestScore = true;
+
+      localStorage.setItem('bestScore', String(this.bestScore));
+    } else {
+      this.isNewBestScore = false;
+    }
   }
 
   checkAnswer(chosenAnswer) {
@@ -72,14 +119,6 @@ class QuizModel {
     }
 
     this.switchToNextQuestion();
-  }
-
-  isLastQuestion() {
-    if (this.questionIndex === this.quiz.questions.length + 1) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   restartQuiz() {
@@ -95,7 +134,10 @@ class QuizModel {
   }
 
   decreaseScore() {
-    this.score -= 100;
+    if (this.score >= 100) {
+      this.score -= 100;
+    }
+
     this.wrongAnswer++;
   }
 
@@ -121,10 +163,19 @@ class QuizModel {
 
   getResultData() {
     return {
+      bestScore: this.bestScore,
       score: this.score,
       correctAnswer: this.correctAnswer,
       wrongAnswer: this.wrongAnswer,
     };
+  }
+
+  isLastQuestion() {
+    if (this.questionIndex === this.quiz.questions.length + 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -135,6 +186,10 @@ class QuizController {
 
   answerBtnHandler(chosenAnswer) {
     this.model.checkAnswer(chosenAnswer);
+
+    if (this.isLastQuestion()) {
+      this.model.saveBestScore();
+    }
   }
 
   restartBtnHandler() {
@@ -143,6 +198,10 @@ class QuizController {
 
   isLastQuestion() {
     return this.model.isLastQuestion();
+  }
+
+  isNewBestScore() {
+    return this.model.isNewBestScore;
   }
 
   getResultData() {
@@ -159,6 +218,10 @@ class QuizController {
 
   getScore() {
     return this.model.score;
+  }
+
+  getBestScore() {
+    return this.model.bestScore;
   }
 
   getCategory() {
@@ -203,6 +266,7 @@ class QuizView {
   }
 
   renderResultData() {
+    const bestScoreScreen = document.querySelector('.result__best-score');
     const totalScoreScreen = document.querySelector('.result__total-score');
     const corectAnswerScreen = document.querySelector(
       '.result__correct-answer-amount'
@@ -210,10 +274,17 @@ class QuizView {
     const wrongAnswerScreen = document.querySelector(
       '.result__wrong-answer-amount'
     );
+    const endPhraseText = document.querySelector('.result__end-phrase');
 
+    if (this.controller.isNewBestScore()) {
+      endPhraseText.innerText = 'Congratulations! You have a new best score!';
+    } else {
+      endPhraseText.innerText = "Don't worry! You can try again";
+    }
     totalScoreScreen.innerText = `Total score: ${
       this.controller.getResultData().score
     }`;
+    bestScoreScreen.innerText = `Best score: ${this.controller.getBestScore()}`;
     corectAnswerScreen.innerText = `Correct answers: ${
       this.controller.getResultData().correctAnswer
     }`;
@@ -238,6 +309,7 @@ class QuizView {
     this.displayAnswers();
     this.displayQuestionCounter();
     this.displayScore();
+    this.displayBestScore();
     this.displayCategory();
   }
 
@@ -274,6 +346,12 @@ class QuizView {
     const categoryScreen = document.querySelector('.header__quiz-category');
 
     categoryScreen.innerText = this.controller.getCategory();
+  }
+
+  displayBestScore() {
+    const bestScore = document.querySelector('.header__best-score');
+
+    bestScore.innerText = `Best score: ${this.controller.getBestScore()}`;
   }
 
   bindListeners() {

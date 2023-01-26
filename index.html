@@ -11,7 +11,10 @@
     <header class="header">
       <div class="header__info">
         <h1 class="header__quiz-category"></h1>
-        <p class="header__score"></p>
+        <div class="header__scores">
+          <h2 class="header__score"></h2>
+          <h2 class="header__best-score"></h2>
+        </div>
       </div>
     </header>
     <main class="game">
@@ -35,8 +38,9 @@
     </main>
 
     <div class="game__result result display-none">
-      <h2 class="result__end-phrase">Congatulations!</h2>
+      <h2 class="result__end-phrase"></h2>
       <h2 class="result__total-score"></h2>
+      <h2 class="result__best-score"></h2>
       <h3 class="result__correct-answer-amount"></h3>
       <h3 class="result__wrong-answer-amount"></h3>
       <button class="result__game-restart">Restart</button>

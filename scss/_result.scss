@@ -5,16 +5,14 @@
   background: linear-gradient(180deg, $dark-purple 0%, $light-purple 100%);
   @include center;
   flex-direction: column;
-  gap: 40px;
+  gap: 25px;
 
   color: $white;
   font-size: 22px;
+  text-align: center;
 
   &__end-phrase {
-    font-size: 33px;
-  }
-
-  &__total-score {
+    max-width: 400px;
     font-size: 30px;
   }
 

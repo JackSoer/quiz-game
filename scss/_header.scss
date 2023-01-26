@@ -1,5 +1,4 @@
 .header {
-  padding: 5px;
   height: 10vh;
   position: fixed;
   top: 0;
@@ -14,7 +13,6 @@
 
   &__info {
     text-align: center;
-    font-weight: 700;
   }
 
   &__quiz-category {
@@ -23,7 +21,13 @@
     margin-bottom: 8px;
   }
 
-  &__score {
+  &__scores {
+    @include center;
+    gap: 15px;
+  }
+
+  &__score,
+  &__best-score {
     font-size: 20px;
   }
 }
