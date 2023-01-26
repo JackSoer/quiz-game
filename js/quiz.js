@@ -92,7 +92,7 @@ class QuizModel {
     if (localStorage.getItem('bestScore') !== null) {
       this.bestScore = Number(localStorage.getItem('bestScore'));
     } else {
-      this.bestScore = 0;
+      this.bestScore = null;
     }
     this.isNewBestScore = false;
     this.score = 0;
@@ -101,7 +101,11 @@ class QuizModel {
   }
 
   saveBestScore() {
-    if (this.score > this.bestScore) {
+    if (this.bestScore === null) {
+      this.bestScore = this.score;
+
+      localStorage.setItem('bestScore', String(this.bestScore));
+    } else if (this.score > this.bestScore) {
       this.bestScore = this.score;
       this.isNewBestScore = true;
 
@@ -134,10 +138,7 @@ class QuizModel {
   }
 
   decreaseScore() {
-    if (this.score >= 100) {
-      this.score -= 100;
-    }
-
+    this.score -= 100;
     this.wrongAnswer++;
   }
 
@@ -262,18 +263,45 @@ class QuizView {
     const header = document.querySelector('.header');
     header.classList.add('display-none');
 
-    this.renderResultData();
+    this.renderResult();
   }
 
-  renderResultData() {
+  renderResult() {
+    this.displayEndPhrase();
+    this.displayResultScores();
+    this.displayAnswersStat();
+  }
+
+  displayResultScores() {
     const bestScoreScreen = document.querySelector('.result__best-score');
     const totalScoreScreen = document.querySelector('.result__total-score');
+
+    totalScoreScreen.innerText = `Total score: ${
+      this.controller.getResultData().score
+    }`;
+
+    bestScoreScreen.innerText = `Best score: ${
+      this.controller.getResultData().bestScore
+    }`;
+  }
+
+  displayAnswersStat() {
     const corectAnswerScreen = document.querySelector(
       '.result__correct-answer-amount'
     );
     const wrongAnswerScreen = document.querySelector(
       '.result__wrong-answer-amount'
     );
+
+    corectAnswerScreen.innerText = `Correct answers: ${
+      this.controller.getResultData().correctAnswer
+    }`;
+    wrongAnswerScreen.innerText = `Wrong answers: ${
+      this.controller.getResultData().wrongAnswer
+    }`;
+  }
+
+  displayEndPhrase() {
     const endPhraseText = document.querySelector('.result__end-phrase');
 
     if (this.controller.isNewBestScore()) {
@@ -281,16 +309,6 @@ class QuizView {
     } else {
       endPhraseText.innerText = "Don't worry! You can try again";
     }
-    totalScoreScreen.innerText = `Total score: ${
-      this.controller.getResultData().score
-    }`;
-    bestScoreScreen.innerText = `Best score: ${this.controller.getBestScore()}`;
-    corectAnswerScreen.innerText = `Correct answers: ${
-      this.controller.getResultData().correctAnswer
-    }`;
-    wrongAnswerScreen.innerText = `Wrong answers: ${
-      this.controller.getResultData().wrongAnswer
-    }`;
   }
 
   showQuiz() {
@@ -351,7 +369,13 @@ class QuizView {
   displayBestScore() {
     const bestScore = document.querySelector('.header__best-score');
 
-    bestScore.innerText = `Best score: ${this.controller.getBestScore()}`;
+    if (this.controller.getResultData().bestScore !== null) {
+      bestScore.innerText = `Best score: ${
+        this.controller.getResultData().bestScore
+      }`;
+    } else {
+      bestScore.innerText = `Best score: ---`;
+    }
   }
 
   bindListeners() {
