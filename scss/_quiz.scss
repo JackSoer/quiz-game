@@ -49,10 +49,12 @@
   }
 
   &__correct-answer {
+    transition: all 0.3s;
     @include set-background($green);
   }
 
   &__wrong-answer {
+    transition: all 0.3s;
     @include set-background($red);
   }
 }

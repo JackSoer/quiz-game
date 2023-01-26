@@ -262,9 +262,9 @@ class QuizView {
     this.controller.answerBtnHandler(currentAnswer);
 
     if (this.controller.isLastQuestion()) {
-      setTimeout(() => this.showResult(), 500);
+      setTimeout(() => this.showResult(), 400);
     } else {
-      setTimeout(() => this.showQuiz(), 500);
+      setTimeout(() => this.showQuiz(), 400);
     }
   }
 
