@@ -246,11 +246,34 @@ class QuizController {
   getAnswerTime() {
     return this.model.quiz.answerTime;
   }
+
+  getQuestionIndex() {
+    return this.model.questionIndex;
+  }
 }
 
 class QuizView {
   constructor(controller) {
     this.controller = controller;
+
+    this.questionAudios = [
+      {
+        questionIndex: 1,
+        countDown: 30,
+        soundtrack: document.getElementById('1q-countdown30s'),
+      },
+      {
+        questionIndex: 2,
+        countDown: 30,
+        soundtrack: document.getElementById('2q-countdown30s'),
+      },
+      {
+        questionIndex: 3,
+        countDown: 30,
+        soundtrack: document.getElementById('3q-countdown30s'),
+      },
+    ];
+    this.questionAudioIndex = 1;
 
     this.showQuiz();
     this.bindListeners();
@@ -272,11 +295,6 @@ class QuizView {
     } else {
       setTimeout(() => this.showQuiz(), 400);
     }
-
-    // const answerBtns = document.querySelectorAll('.game__answers-item');
-    // answerBtns.forEach((answerBtn) =>
-    //   answerBtn.removeEventListener('click', this.onAnswerBtnClick)
-    // );
   }
 
   onRestartBtnClick() {
@@ -293,6 +311,7 @@ class QuizView {
     const header = document.querySelector('.header');
     header.classList.add('display-none');
 
+    this.pauseOldAudio();
     this.renderResult();
   }
 
@@ -350,6 +369,7 @@ class QuizView {
     header.classList.remove('display-none');
 
     this.renderQuiz();
+    this.playQuestionAudio();
     this.clearColorOnBtn();
     this.enableAnswerBtns();
   }
@@ -446,6 +466,44 @@ class QuizView {
 
   removeOldTimer() {
     clearInterval(this.timer);
+  }
+
+  playQuestionAudio() {
+    this.pauseOldAudio();
+
+    if (this.questionAudioIndex > 3) {
+      this.questionAudioIndex = 1;
+    }
+
+    const countdown = this.controller.getAnswerTime();
+
+    this.questionAudios.forEach((questionAudio) => {
+      const isCorrectAudio =
+        questionAudio.questionIndex === this.questionAudioIndex &&
+        questionAudio.countDown === countdown;
+
+      if (isCorrectAudio) {
+        questionAudio.soundtrack.currentTime = 0;
+        questionAudio.soundtrack.setAttribute('muted', true);
+        questionAudio.soundtrack.play();
+      }
+    });
+
+    this.questionAudioIndex++;
+  }
+
+  pauseOldAudio() {
+    const countdown = this.controller.getAnswerTime();
+
+    this.questionAudios.forEach((questionAudio) => {
+      const isOldAudio =
+        questionAudio.questionIndex === this.questionAudioIndex - 1 &&
+        questionAudio.countDown === countdown;
+
+      if (isOldAudio) {
+        questionAudio.soundtrack.pause();
+      }
+    });
   }
 
   bindListeners() {
