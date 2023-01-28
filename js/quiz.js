@@ -2,7 +2,7 @@ class QuizModel {
   constructor() {
     this.quiz = {
       category: 'Marvel & DC',
-      answerTime: 10,
+      answerTime: 30,
       questions: [
         {
           id: 1,
@@ -272,6 +272,11 @@ class QuizView {
     } else {
       setTimeout(() => this.showQuiz(), 400);
     }
+
+    // const answerBtns = document.querySelectorAll('.game__answers-item');
+    // answerBtns.forEach((answerBtn) =>
+    //   answerBtn.removeEventListener('click', this.onAnswerBtnClick)
+    // );
   }
 
   onRestartBtnClick() {
@@ -346,6 +351,7 @@ class QuizView {
 
     this.renderQuiz();
     this.clearColorOnBtn();
+    this.enableAnswerBtns();
   }
 
   clearColorOnBtn() {
@@ -425,7 +431,7 @@ class QuizView {
       if (answerTime === 0) {
         this.removeOldTimer();
         this.controller.answerBtnHandler(null);
-        
+
         if (this.controller.isLastQuestion()) {
           this.showResult();
         } else {
@@ -447,9 +453,24 @@ class QuizView {
     const restartBtn = document.querySelector('.result__game-restart');
 
     answerBtns.forEach((answerBtn) =>
-      answerBtn.addEventListener('click', (e) => this.onAnswerBtnClick(e))
+      answerBtn.addEventListener('click', (e) => {
+        this.onAnswerBtnClick(e);
+        this.disableAnswerBtns();
+      })
     );
     restartBtn.addEventListener('click', () => this.onRestartBtnClick());
+  }
+
+  disableAnswerBtns() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) => answerBtn.setAttribute('disabled', true));
+  }
+
+  enableAnswerBtns() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) => answerBtn.removeAttribute('disabled'));
   }
 }
 
