@@ -2,6 +2,7 @@ class QuizModel {
   constructor() {
     this.quiz = {
       category: 'Marvel & DC',
+      answerTime: 10,
       questions: [
         {
           id: 1,
@@ -241,6 +242,10 @@ class QuizController {
   getCategory() {
     return this.model.quiz.category;
   }
+
+  getAnswerTime() {
+    return this.model.quiz.answerTime;
+  }
 }
 
 class QuizView {
@@ -359,6 +364,7 @@ class QuizView {
     this.displayScore();
     this.displayBestScore();
     this.displayCategory();
+    this.displayTimerTime();
   }
 
   displayQuestion() {
@@ -387,7 +393,7 @@ class QuizView {
   displayScore() {
     const scoreScreen = document.querySelector('.header__score');
 
-    scoreScreen.innerText = `Score: ${this.controller.getScore()}`;
+    scoreScreen.innerHTML = `Score:<br>${this.controller.getScore()}`;
   }
 
   displayCategory() {
@@ -400,12 +406,40 @@ class QuizView {
     const bestScore = document.querySelector('.header__best-score');
 
     if (this.controller.getResultData().bestScore !== null) {
-      bestScore.innerText = `Best score: ${
+      bestScore.innerHTML = `BS:<br>${
         this.controller.getResultData().bestScore
       }`;
     } else {
-      bestScore.innerText = `Best score: ---`;
+      bestScore.innerHTML = `BS:<br>---`;
     }
+  }
+
+  displayTimerTime() {
+    this.removeOldTimer();
+
+    const timerNumber = document.querySelector('.header__game-timer-number');
+
+    let answerTime = this.controller.getAnswerTime();
+
+    this.timer = setInterval(() => {
+      if (answerTime === 0) {
+        this.removeOldTimer();
+        this.controller.answerBtnHandler(null);
+        
+        if (this.controller.isLastQuestion()) {
+          this.showResult();
+        } else {
+          this.showQuiz();
+        }
+      } else {
+        timerNumber.innerText = answerTime;
+        answerTime--;
+      }
+    }, 1000);
+  }
+
+  removeOldTimer() {
+    clearInterval(this.timer);
   }
 
   bindListeners() {

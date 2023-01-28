@@ -1,33 +1,58 @@
 .header {
-  height: 10vh;
+  height: 70px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-
   @include set-background($extra-light-purple);
   @include center;
   border-bottom-right-radius: 30px;
   border-bottom-left-radius: 30px;
+  text-align: center;
 
-  &__info {
-    text-align: center;
+  &__timer-category {
+    height: 100%;
+    @include center;
+    flex-direction: column;
+    border-right: $white 1px solid;
+    border-left: $white 1px solid;
   }
 
   &__quiz-category {
-    font-size: 25px;
-    letter-spacing: 1.5px;
-    margin-bottom: 8px;
-  }
-
-  &__scores {
-    @include center;
-    gap: 15px;
+    font-size: 12px;
+    margin-bottom: 5px;
   }
 
   &__score,
   &__best-score {
-    font-size: 20px;
+    flex: 33.333%;
+    font-size: 18px;
+  }
+
+  &__game-timer {
+    height: 42px;
+    width: 42px;
+    position: relative;
+
+    &-item {
+      width: 100%;
+      height: 100%;
+    }
+
+    &-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: 3px;
+      color: $gray;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+
+  &__timer-category {
+    flex: 33.333%;
   }
 }

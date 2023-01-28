@@ -40,7 +40,12 @@ button {
 .container {
   max-width: 400px;
   margin: 0 auto;
-  padding: 15px;
+  padding: 12.5px 15px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .display-none {
