@@ -33,11 +33,18 @@
         <div class="game__question-illustration">
           <img
             class="game__question-illustration-item"
-            src="image/questions-image/marvel_tribute___patreon_collab_by_patrickbrown_deoj6j4-pre.jpg"
+            src="image/question-images/marvel_tribute___patreon_collab_by_patrickbrown_deoj6j4-pre.jpg"
             alt="Your image disappeared..."
           />
         </div>
-        <h3 class="game__questions-counter"></h3>
+        <div class="game__extra-info">
+          <h3 class="game__questions-counter"></h3>
+          <button class="game__volume-btn">
+            <div
+              class="game__volume-btn-icon game__volume-btn-icon--muted"
+            ></div>
+          </button>
+        </div>
         <h2 class="game__question"></h2>
         <div class="game__answers">
           <button class="game__answers-item"></button>
@@ -60,17 +67,17 @@
     <audio
       src="soundtracks/In Game Music (30 Second Countdown) 1_3.mp3"
       id="1q-countdown30s"
-      loop
+      type="audio/mpeg"
     ></audio>
     <audio
       src="soundtracks/In Game Music (30 Second Countdown) 2_3.mp3"
       id="2q-countdown30s"
-      loop
+      type="audio/mpeg"
     ></audio>
     <audio
       src="soundtracks/In Game Music (30 Second Countdown) 3_3.mp3"
       id="3q-countdown30s"
-      loop
+      type="audio/mpeg"
     ></audio>
 
     <script src="js/quiz.js"></script>

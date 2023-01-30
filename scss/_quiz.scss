@@ -59,4 +59,30 @@
     transition: all 0.3s;
     @include set-background($red);
   }
+
+  &__extra-info {
+    position: relative;
+  }
+
+  &__volume-mute-item {
+  }
+
+  &__volume-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-20%);
+
+    &-icon {
+      background: url(/image/icons/volume-up-4-32.png) center / cover;
+      width: 35px;
+      height: 35px;
+
+      &--muted {
+        background: url(/image/icons/mute-2-32.png) center / cover;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
 }
