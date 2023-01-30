@@ -93,7 +93,7 @@ class QuizModel {
     if (localStorage.getItem('bestScore') !== null) {
       this.bestScore = Number(localStorage.getItem('bestScore'));
     } else {
-      this.bestScore = null;
+      this.bestScore = 0;
     }
     this.isNewBestScore = false;
     this.score = 0;
@@ -102,12 +102,7 @@ class QuizModel {
   }
 
   saveBestScore() {
-    if (this.bestScore === null) {
-      this.bestScore = this.score;
-      this.isNewBestScore = true;
-
-      localStorage.setItem('bestScore', String(this.bestScore));
-    } else if (this.score > this.bestScore) {
+    if (this.score > this.bestScore) {
       this.bestScore = this.score;
       this.isNewBestScore = true;
 
@@ -121,7 +116,7 @@ class QuizModel {
     if (this.isCorrectAnswer(chosenAnswer)) {
       this.increaseScore();
     } else {
-      this.decreaseScore();
+      this.wrongAnswer++;
     }
 
     this.switchToNextQuestion();
@@ -141,11 +136,6 @@ class QuizModel {
   increaseScore() {
     this.score += 100;
     this.correctAnswer++;
-  }
-
-  decreaseScore() {
-    this.score -= 100;
-    this.wrongAnswer++;
   }
 
   switchToNextQuestion() {
