@@ -27,3 +27,24 @@
     @include set-background($white);
   }
 }
+
+@include tablet {
+  .result {
+    gap: 50px;
+    font-size: 30px;
+
+    &__correct-answer-amount,
+    &__wrong-answer-amount {
+      font-size: 40px;
+    }
+
+    &__end-phrase {
+      max-width: 700px;
+      font-size: 40px;
+    }
+
+    &__game-restart {
+      padding: 30px 150px;
+    }
+  }
+}

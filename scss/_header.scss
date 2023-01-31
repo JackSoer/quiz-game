@@ -28,6 +28,10 @@
   &__best-score {
     flex: 33.333%;
     font-size: 18px;
+
+    &-counter {
+      margin-left: 5px;
+    }
   }
 
   &__game-timer {
@@ -54,5 +58,34 @@
 
   &__timer-category {
     flex: 33.333%;
+  }
+}
+
+@include desktop {
+  .header {
+    height: 35px;
+
+    &__game-timer {
+      position: fixed;
+      top: 50%;
+      right: 15px;
+      height: 80px;
+      width: 80px;
+      transform: translateY(-50%);
+
+      &-number {
+        font-size: 30px;
+        margin-top: 7px;
+      }
+    }
+
+    &__quiz-category {
+      font-size: 25px;
+    }
+
+    &__score,
+    &__best-score {
+      font-size: 25px;
+    }
   }
 }

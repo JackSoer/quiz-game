@@ -295,12 +295,157 @@ class QuizView {
     } else {
       setTimeout(() => this.showQuiz(), 400);
     }
+
+    this.disableAnswerBtns();
+  }
+
+  disableAnswerBtns() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) => answerBtn.setAttribute('disabled', true));
+  }
+
+  enableAnswerBtns() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) => answerBtn.removeAttribute('disabled'));
   }
 
   onRestartBtnClick() {
     this.controller.restartBtnHandler();
 
     this.showQuiz();
+  }
+
+  onVolumeBtnClick() {
+    const volumeIcon = document.querySelector('.game__volume-btn-icon');
+
+    volumeIcon.classList.toggle('game__volume-btn-icon--muted');
+
+    this.isMuted = volumeIcon.classList.contains(
+      'game__volume-btn-icon--muted'
+    );
+
+    if (this.isMuted) {
+      this.muteSound();
+    } else {
+      this.playQuestionAudio();
+    }
+  }
+
+  showQuiz() {
+    const resultScreen = document.querySelector('.result');
+    resultScreen.classList.add('display-none');
+    const gameScreen = document.querySelector('.game');
+    gameScreen.classList.remove('display-none');
+    const header = document.querySelector('.header');
+    header.classList.remove('display-none');
+
+    this.renderQuiz();
+    this.playAudio();
+  }
+
+  renderQuiz() {
+    this.displayTimerTime();
+    this.displayQuestions();
+    this.displayAnswers();
+    this.displayQuestionCounter();
+    this.displayScore();
+    this.displayBestScore();
+    this.displayCategory();
+    this.displayQuestionImage();
+  }
+
+  displayQuestions() {
+    const questionTitle = document.querySelector('.game__question');
+
+    questionTitle.innerText = this.controller.getCurrentQuestion().question;
+  }
+
+  displayAnswers() {
+    this.enableAnswerBtns();
+    this.clearColorOnBtn();
+
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+    const answers = this.controller.getCurrentQuestion().answers;
+
+    answerBtns.forEach(
+      (answerBtn, index) => (answerBtn.innerText = answers[index].answer)
+    );
+  }
+
+  displayQuestionCounter() {
+    const questionsCounter = document.querySelector('.game__questions-counter');
+
+    questionsCounter.innerText = `${
+      this.controller.getCurrentQuestion().id
+    } / ${this.controller.getQuestionAmount()}`;
+  }
+
+  displayScore() {
+    const scoreCounter = document.querySelector('.header__score-counter');
+
+    scoreCounter.innerText = this.controller.getScore();
+  }
+
+  displayBestScore() {
+    const bestScoreCounter = document.querySelector(
+      '.header__best-score-counter'
+    );
+
+    bestScoreCounter.innerText = this.controller.getResultData().bestScore;
+  }
+
+  displayCategory() {
+    const categoryScreen = document.querySelector('.header__quiz-category');
+
+    categoryScreen.innerText = this.controller.getCategory();
+  }
+
+  displayQuestionImage() {
+    const questionImg = document.querySelector(
+      '.game__question-illustration-item'
+    );
+    const questionImgItem = this.controller.getCurrentQuestion().questionImg;
+
+    questionImg.src = `image/question-images/${questionImgItem}`;
+  }
+
+  displayTimerTime() {
+    this.removeOldTimer();
+
+    const timerNumber = document.querySelector('.header__game-timer-number');
+
+    let answerTime = this.controller.getAnswerTime();
+
+    this.timer = setInterval(() => {
+      if (answerTime === 0) {
+        this.removeOldTimer();
+        this.controller.answerBtnHandler(null);
+
+        if (this.controller.isLastQuestion()) {
+          this.showResult();
+        } else {
+          this.showQuiz();
+        }
+      } else {
+        timerNumber.innerText = answerTime;
+        answerTime--;
+      }
+    }, 1000);
+  }
+
+  removeOldTimer() {
+    clearInterval(this.timer);
+  }
+
+  clearColorOnBtn() {
+    const answerBtns = document.querySelectorAll('.game__answers-item');
+
+    answerBtns.forEach((answerBtn) => {
+      answerBtn.classList.remove('game__correct-answer');
+      answerBtn.classList.remove('game__wrong-answer');
+    });
   }
 
   showResult() {
@@ -360,40 +505,6 @@ class QuizView {
     }
   }
 
-  showQuiz() {
-    const resultScreen = document.querySelector('.result');
-    resultScreen.classList.add('display-none');
-    const gameScreen = document.querySelector('.game');
-    gameScreen.classList.remove('display-none');
-    const header = document.querySelector('.header');
-    header.classList.remove('display-none');
-
-    this.renderQuiz();
-    this.clearColorOnBtn();
-    this.enableAnswerBtns();
-  }
-
-  clearColorOnBtn() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
-
-    answerBtns.forEach((answerBtn) => {
-      answerBtn.classList.remove('game__correct-answer');
-      answerBtn.classList.remove('game__wrong-answer');
-    });
-  }
-
-  renderQuiz() {
-    this.displayTimerTime();
-    this.displayQuestion();
-    this.displayAnswers();
-    this.displayQuestionCounter();
-    this.displayScore();
-    this.displayBestScore();
-    this.displayCategory();
-    this.displayQuestionImage();
-    this.playAudio();
-  }
-
   playAudio() {
     this.deleteOldAudioTimer();
     this.startAudioTimer();
@@ -420,100 +531,6 @@ class QuizView {
 
   deleteOldAudioTimer() {
     clearInterval(this.audioTimer);
-  }
-
-  displayQuestion() {
-    const questionTitle = document.querySelector('.game__question');
-
-    questionTitle.innerText = this.controller.getCurrentQuestion().question;
-  }
-
-  displayAnswers() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
-    const answers = this.controller.getCurrentQuestion().answers;
-
-    answerBtns.forEach(
-      (answerBtn, index) => (answerBtn.innerText = answers[index].answer)
-    );
-  }
-
-  displayQuestionCounter() {
-    const questionsCounter = document.querySelector('.game__questions-counter');
-
-    questionsCounter.innerText = `Question ${
-      this.controller.getCurrentQuestion().id
-    } / ${this.controller.getQuestionAmount()}`;
-  }
-
-  displayScore() {
-    const scoreScreen = document.querySelector('.header__score');
-
-    scoreScreen.innerHTML = `Score:<br>${this.controller.getScore()}`;
-  }
-
-  displayCategory() {
-    const categoryScreen = document.querySelector('.header__quiz-category');
-
-    categoryScreen.innerText = this.controller.getCategory();
-  }
-
-  displayBestScore() {
-    const bestScore = document.querySelector('.header__best-score');
-
-    bestScore.innerHTML = `BS:<br>${this.controller.getResultData().bestScore}`;
-  }
-
-  displayQuestionImage() {
-    const questionImg = document.querySelector(
-      '.game__question-illustration-item'
-    );
-    const questionImgItem = this.controller.getCurrentQuestion().questionImg;
-
-    questionImg.src = `image/question-images/${questionImgItem}`;
-  }
-
-  displayTimerTime() {
-    this.removeOldTimer();
-
-    const timerNumber = document.querySelector('.header__game-timer-number');
-
-    let answerTime = this.controller.getAnswerTime();
-
-    this.timer = setInterval(() => {
-      if (answerTime === 0) {
-        this.removeOldTimer();
-        this.controller.answerBtnHandler(null);
-
-        if (this.controller.isLastQuestion()) {
-          this.showResult();
-        } else {
-          this.showQuiz();
-        }
-      } else {
-        timerNumber.innerText = answerTime;
-        answerTime--;
-      }
-    }, 1000);
-  }
-
-  removeOldTimer() {
-    clearInterval(this.timer);
-  }
-
-  onVolumeBtnClick() {
-    const volumeIcon = document.querySelector('.game__volume-btn-icon');
-
-    volumeIcon.classList.toggle('game__volume-btn-icon--muted');
-
-    this.isMuted = volumeIcon.classList.contains(
-      'game__volume-btn-icon--muted'
-    );
-
-    if (this.isMuted) {
-      this.muteSound();
-    } else {
-      this.playQuestionAudio();
-    }
   }
 
   playQuestionAudio() {
@@ -569,23 +586,10 @@ class QuizView {
     answerBtns.forEach((answerBtn) =>
       answerBtn.addEventListener('click', (e) => {
         this.onAnswerBtnClick(e);
-        this.disableAnswerBtns();
       })
     );
     restartBtn.addEventListener('click', () => this.onRestartBtnClick());
     volumeBtn.addEventListener('click', () => this.onVolumeBtnClick());
-  }
-
-  disableAnswerBtns() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
-
-    answerBtns.forEach((answerBtn) => answerBtn.setAttribute('disabled', true));
-  }
-
-  enableAnswerBtns() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
-
-    answerBtns.forEach((answerBtn) => answerBtn.removeAttribute('disabled'));
   }
 }
 
