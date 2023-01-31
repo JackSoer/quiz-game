@@ -6,6 +6,7 @@ class QuizModel {
       questions: [
         {
           id: 1,
+          questionImg: '1q.jpg',
           question: 'What is Hawkeye’s real name?',
           answers: [
             { answer: 'Riri Williams', isCorrect: false },
@@ -16,6 +17,7 @@ class QuizModel {
         },
         {
           id: 2,
+          questionImg: '2q.png',
           question:
             'Night Crawler, member of the X-Men, has what kind of powers?',
           answers: [
@@ -27,6 +29,7 @@ class QuizModel {
         },
         {
           id: 3,
+          questionImg: '3q.webp',
           question:
             'Which Avenger is the only one who could calm the Hulk down?',
           answers: [
@@ -38,6 +41,7 @@ class QuizModel {
         },
         {
           id: 4,
+          questionImg: '4q.webp',
           question: 'Which infinity stone was located on Vormir?',
           answers: [
             { answer: 'Space Stone', isCorrect: false },
@@ -48,6 +52,7 @@ class QuizModel {
         },
         {
           id: 5,
+          questionImg: '5q.jpeg',
           question: 'Which original Avenger was not in the first few movies?',
           answers: [
             { answer: 'Iron Man', isCorrect: false },
@@ -58,6 +63,7 @@ class QuizModel {
         },
         {
           id: 6,
+          questionImg: '6q.webp',
           question: 'What was Superman’s birth name?',
           answers: [
             { answer: 'Li', isCorrect: false },
@@ -68,6 +74,7 @@ class QuizModel {
         },
         {
           id: 7,
+          questionImg: '7q.jpg',
           question: 'What is the name of Batman’s butler?',
           answers: [
             { answer: 'John', isCorrect: false },
@@ -78,6 +85,7 @@ class QuizModel {
         },
         {
           id: 8,
+          questionImg: '8q.avif',
           question: 'Who is Green Lantern’s nemesis?',
           answers: [
             { answer: 'Calisto', isCorrect: false },
@@ -95,10 +103,10 @@ class QuizModel {
     } else {
       this.bestScore = 0;
     }
-    this.isNewBestScore = false;
     this.score = 0;
     this.wrongAnswer = 0;
     this.correctAnswer = 0;
+    this.isNewBestScore = false;
   }
 
   saveBestScore() {
@@ -382,6 +390,7 @@ class QuizView {
     this.displayScore();
     this.displayBestScore();
     this.displayCategory();
+    this.displayQuestionImage();
     this.playAudio();
   }
 
@@ -451,13 +460,16 @@ class QuizView {
   displayBestScore() {
     const bestScore = document.querySelector('.header__best-score');
 
-    if (this.controller.getResultData().bestScore !== null) {
-      bestScore.innerHTML = `BS:<br>${
-        this.controller.getResultData().bestScore
-      }`;
-    } else {
-      bestScore.innerHTML = `BS:<br>---`;
-    }
+    bestScore.innerHTML = `BS:<br>${this.controller.getResultData().bestScore}`;
+  }
+
+  displayQuestionImage() {
+    const questionImg = document.querySelector(
+      '.game__question-illustration-item'
+    );
+    const questionImgItem = this.controller.getCurrentQuestion().questionImg;
+
+    questionImg.src = `image/question-images/${questionImgItem}`;
   }
 
   displayTimerTime() {
