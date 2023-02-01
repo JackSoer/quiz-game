@@ -94,6 +94,29 @@ class QuizModel {
             { answer: 'Jonatan', isCorrect: false },
           ],
         },
+        {
+          id: 9,
+          questionImg: 'iron-man.jpg',
+          question:
+            'What year was the first Iron Man movie released, kicking off the Marvel Cinematic Universe?',
+          answers: [
+            { answer: '2005', isCorrect: false },
+            { answer: '2008', isCorrect: true },
+            { answer: '2010', isCorrect: false },
+            { answer: '2012', isCorrect: false },
+          ],
+        },
+        {
+          id: 10,
+          questionImg: 'mjolnir.avif',
+          question: 'What is the name of Thor’s hammer?',
+          answers: [
+            { answer: 'Vanir', isCorrect: false },
+            { answer: 'Aesir', isCorrect: false },
+            { answer: 'Mjolnir', isCorrect: true },
+            { answer: 'Norn', isCorrect: false },
+          ],
+        },
       ],
     };
 
