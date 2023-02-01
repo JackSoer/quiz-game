@@ -284,8 +284,10 @@ class QuizView {
 
     if (this.controller.isCorrectAnswer(currentAnswer)) {
       e.target.classList.add('game__correct-answer');
+      this.playCorrectAnswerEffect();
     } else {
       e.target.classList.add('game__wrong-answer');
+      this.playWrongAnswerEffect();
     }
 
     this.controller.answerBtnHandler(currentAnswer);
@@ -309,6 +311,22 @@ class QuizView {
     const answerBtns = document.querySelectorAll('.game__answers-item');
 
     answerBtns.forEach((answerBtn) => answerBtn.removeAttribute('disabled'));
+  }
+
+  playWrongAnswerEffect() {
+    const wrongAnswerEffect = document.querySelector('#wrong-answer');
+
+    wrongAnswerEffect.currentTime = 0;
+
+    wrongAnswerEffect.play();
+  }
+
+  playCorrectAnswerEffect() {
+    const correctAnswerEffect = document.querySelector('#correct-answer');
+
+    correctAnswerEffect.currentTime = 0;
+
+    correctAnswerEffect.play();
   }
 
   onRestartBtnClick() {
@@ -346,6 +364,7 @@ class QuizView {
   }
 
   renderQuiz() {
+    this.displayQuestionImage();
     this.displayTimerTime();
     this.displayQuestions();
     this.displayAnswers();
@@ -353,7 +372,6 @@ class QuizView {
     this.displayScore();
     this.displayBestScore();
     this.displayCategory();
-    this.displayQuestionImage();
   }
 
   displayQuestions() {
@@ -408,7 +426,7 @@ class QuizView {
     );
     const questionImgItem = this.controller.getCurrentQuestion().questionImg;
 
-    questionImg.src = `image/question-images/${questionImgItem}`;
+    questionImg.src = `images/question-images/${questionImgItem}`;
   }
 
   displayTimerTime() {
