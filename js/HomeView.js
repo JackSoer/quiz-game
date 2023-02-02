@@ -55,6 +55,8 @@ export default class HomeView {
 
       this.homeDiv.innerHTML += quizBtn;
     });
+
+    this.addBackBtn();
   }
 
   getQuizesByCategory(category) {
@@ -87,6 +89,20 @@ export default class HomeView {
     const quizModel = new QuizModel(quiz);
     const quizController = new QuizController(quizModel);
     const quizView = new QuizView(quizController);
+  }
+
+  addBackBtn() {
+    const quizes = document.querySelector('.quizes');
+
+    quizes.innerHTML += `<button class="quizes__back-btn">Back</button>`;
+
+    const backBtn = document.querySelector('.quizes__back-btn');
+
+    backBtn.addEventListener('click', () => this.onBackBtnClick());
+  }
+
+  onBackBtnClick() {
+    new HomeView();
   }
 
   clearContent() {

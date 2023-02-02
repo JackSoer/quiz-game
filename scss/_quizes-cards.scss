@@ -1,5 +1,5 @@
 .quizes {
-  padding-top: 70px;
+  padding-top: 75px;
   background: linear-gradient(180deg, $dark-purple 0%, $light-purple 100%);
   min-height: 100vh;
 
@@ -7,6 +7,20 @@
     display: grid;
     grid-template-columns: max(1fr) max(1fr);
     gap: 15px;
+  }
+
+  &__back-btn {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 2000;
+    @include center;
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+    font-weight: 700;
+    border: 3px $extra-light-purple solid;
+    @include set-background($white);
   }
 }
 
