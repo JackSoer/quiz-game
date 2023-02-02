@@ -4,97 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/main.css" />
+    <title>Quizzes</title>
+    <link rel="stylesheet" href="css/game.css" />
+    <link rel="stylesheet" href="css/quizes.css" />
     <link
       rel="shortcut icon"
       href="images/favicon/favicon.ico"
       type="image/x-icon"
     />
-    <title>Quizzes</title>
   </head>
   <body>
-    <header class="header">
-      <h2 class="header__score">
-        Score: <span class="header__score-counter"></span>
-      </h2>
-      <div class="header__timer-category">
-        <h1 class="header__quiz-category"></h1>
-        <div class="header__game-timer">
-          <img
-            src="images/icons/timer-icon.svg"
-            alt="Your image disappeared..."
-            class="header__game-timer-item"
-          />
-          <p class="header__game-timer-number"></p>
-        </div>
-      </div>
-      <h2 class="header__best-score">
-        BS: <span class="header__best-score-counter"></span>
-      </h2>
+    <header class="header header-home">
+      <h1 class="header__title">Quizzes</h1>
     </header>
-    <main class="game">
-      <div class="container flex-container">
-        <div class="game__question-illustration">
-          <img
-            class="game__question-illustration-item"
-            src=""
-            alt="Your image disappeared..."
-          />
-        </div>
-        <div class="game__extra-info">
-          <h3 class="game__questions-counter"></h3>
-          <button class="game__volume-btn">
-            <div
-              class="game__volume-btn-icon game__volume-btn-icon--muted"
-            ></div>
-          </button>
-        </div>
-        <h2 class="game__question"></h2>
-        <div class="game__answers">
-          <button class="game__answers-item"></button>
-          <button class="game__answers-item"></button>
-          <button class="game__answers-item"></button>
-          <button class="game__answers-item"></button>
-        </div>
+    <main class="main">
+      <div class="quizes">
+        <div class="container quizes-container"></div>
       </div>
     </main>
 
-    <div class="game__result result display-none">
-      <h2 class="result__end-phrase"></h2>
-      <h2 class="result__total-score"></h2>
-      <h2 class="result__best-score"></h2>
-      <h3 class="result__correct-answer-amount"></h3>
-      <h3 class="result__wrong-answer-amount"></h3>
-      <button class="result__game-restart">Restart</button>
-    </div>
-
-    <audio
-      src="audio/soundtracks/In Game Music (30 Second Countdown) 1_3.mp3"
-      id="1q-countdown30s"
-      type="audio/mpeg"
-    ></audio>
-    <audio
-      src="audio/soundtracks/In Game Music (30 Second Countdown) 2_3.mp3"
-      id="2q-countdown30s"
-      type="audio/mpeg"
-    ></audio>
-    <audio
-      src="audio/soundtracks/In Game Music (30 Second Countdown) 3_3.mp3"
-      id="3q-countdown30s"
-      type="audio/mpeg"
-    ></audio>
-
-    <audio
-      src="audio/effects/mixkit-correct-answer-tone-2870.wav"
-      id="correct-answer"
-      type="audio/wav"
-    ></audio>
-    <audio
-      src="audio/effects/wrong-answer-129254.mp3"
-      id="wrong-answer"
-      type="audio/mpeg"
-    ></audio>
-
-    <script src="js/quiz.js"></script>
+    <script src="js/app.js" type="module"></script>
   </body>
 </html>

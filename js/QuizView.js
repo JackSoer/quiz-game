@@ -1,281 +1,7 @@
-class QuizModel {
-  constructor() {
-    this.quiz = {
-      category: 'Marvel & DC',
-      answerTime: 30,
-      questions: [
-        {
-          id: 1,
-          questionImg: '1q.jpg',
-          question: 'What is Hawkeye’s real name?',
-          answers: [
-            { answer: 'Riri Williams', isCorrect: false },
-            { answer: 'Chon Li', isCorrect: false },
-            { answer: 'Emil Blonsky', isCorrect: false },
-            { answer: 'Clint Barton', isCorrect: true },
-          ],
-        },
-        {
-          id: 2,
-          questionImg: '2q.png',
-          question:
-            'Night Crawler, member of the X-Men, has what kind of powers?',
-          answers: [
-            { answer: 'Can teleport', isCorrect: true },
-            { answer: 'Speed', isCorrect: false },
-            { answer: 'Power', isCorrect: false },
-            { answer: 'Fireball', isCorrect: false },
-          ],
-        },
-        {
-          id: 3,
-          questionImg: '3q.webp',
-          question:
-            'Which Avenger is the only one who could calm the Hulk down?',
-          answers: [
-            { answer: 'Iron Man', isCorrect: false },
-            { answer: 'Thor', isCorrect: false },
-            { answer: 'Wasp', isCorrect: false },
-            { answer: 'Black Widow', isCorrect: true },
-          ],
-        },
-        {
-          id: 4,
-          questionImg: '4q.webp',
-          question: 'Which infinity stone was located on Vormir?',
-          answers: [
-            { answer: 'Space Stone', isCorrect: false },
-            { answer: 'Soul Stone', isCorrect: true },
-            { answer: 'Mind Stone', isCorrect: false },
-            { answer: 'Reality Stone', isCorrect: true },
-          ],
-        },
-        {
-          id: 5,
-          questionImg: '5q.jpeg',
-          question: 'Which original Avenger was not in the first few movies?',
-          answers: [
-            { answer: 'Iron Man', isCorrect: false },
-            { answer: 'Black Widow', isCorrect: false },
-            { answer: 'The Wasp', isCorrect: true },
-            { answer: 'Captain America', isCorrect: false },
-          ],
-        },
-        {
-          id: 6,
-          questionImg: '6q.webp',
-          question: 'What was Superman’s birth name?',
-          answers: [
-            { answer: 'Li', isCorrect: false },
-            { answer: 'Jack', isCorrect: false },
-            { answer: 'Kal-El', isCorrect: true },
-            { answer: 'Nick', isCorrect: false },
-          ],
-        },
-        {
-          id: 7,
-          questionImg: '7q.jpg',
-          question: 'What is the name of Batman’s butler?',
-          answers: [
-            { answer: 'John', isCorrect: false },
-            { answer: 'Domesto', isCorrect: false },
-            { answer: 'Alex', isCorrect: false },
-            { answer: 'Alfred', isCorrect: true },
-          ],
-        },
-        {
-          id: 8,
-          questionImg: '8q.avif',
-          question: 'Who is Green Lantern’s nemesis?',
-          answers: [
-            { answer: 'Calisto', isCorrect: false },
-            { answer: 'Sinestro', isCorrect: true },
-            { answer: 'Carnel', isCorrect: false },
-            { answer: 'Jonatan', isCorrect: false },
-          ],
-        },
-        {
-          id: 9,
-          questionImg: 'iron-man.jpg',
-          question:
-            'What year was the first Iron Man movie released, kicking off the Marvel Cinematic Universe?',
-          answers: [
-            { answer: '2005', isCorrect: false },
-            { answer: '2008', isCorrect: true },
-            { answer: '2010', isCorrect: false },
-            { answer: '2012', isCorrect: false },
-          ],
-        },
-        {
-          id: 10,
-          questionImg: 'mjolnir.avif',
-          question: 'What is the name of Thor’s hammer?',
-          answers: [
-            { answer: 'Vanir', isCorrect: false },
-            { answer: 'Aesir', isCorrect: false },
-            { answer: 'Mjolnir', isCorrect: true },
-            { answer: 'Norn', isCorrect: false },
-          ],
-        },
-      ],
-    };
-
-    this.questionIndex = 1;
-    if (localStorage.getItem('bestScore') !== null) {
-      this.bestScore = Number(localStorage.getItem('bestScore'));
-    } else {
-      this.bestScore = 0;
-    }
-    this.score = 0;
-    this.wrongAnswer = 0;
-    this.correctAnswer = 0;
-    this.isNewBestScore = false;
-  }
-
-  saveBestScore() {
-    if (this.score > this.bestScore) {
-      this.bestScore = this.score;
-      this.isNewBestScore = true;
-
-      localStorage.setItem('bestScore', String(this.bestScore));
-    } else {
-      this.isNewBestScore = false;
-    }
-  }
-
-  checkAnswer(chosenAnswer) {
-    if (this.isCorrectAnswer(chosenAnswer)) {
-      this.increaseScore();
-    } else {
-      this.wrongAnswer++;
-    }
-
-    this.switchToNextQuestion();
-
-    if (this.isLastQuestion()) {
-      this.saveBestScore();
-    }
-  }
-
-  restartQuiz() {
-    this.questionIndex = 1;
-    this.score = 0;
-    this.correctAnswer = 0;
-    this.wrongAnswer = 0;
-  }
-
-  increaseScore() {
-    this.score += 100;
-    this.correctAnswer++;
-  }
-
-  switchToNextQuestion() {
-    this.questionIndex++;
-  }
-
-  getCurrentQuestion() {
-    const [question] = this.quiz.questions.filter(
-      (question) => question.id === this.questionIndex
-    );
-
-    return question;
-  }
-
-  getCorrectAnswer() {
-    const [correctAnswer] = this.getCurrentQuestion().answers.filter(
-      (answer) => answer.isCorrect
-    );
-
-    return correctAnswer.answer;
-  }
-
-  getResultData() {
-    return {
-      bestScore: this.bestScore,
-      score: this.score,
-      correctAnswer: this.correctAnswer,
-      wrongAnswer: this.wrongAnswer,
-    };
-  }
-
-  isLastQuestion() {
-    if (this.questionIndex === this.quiz.questions.length + 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  isCorrectAnswer(chosenAnswer) {
-    if (this.getCorrectAnswer() === chosenAnswer) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
-
-class QuizController {
-  constructor(model) {
-    this.model = model;
-  }
-
-  answerBtnHandler(chosenAnswer) {
-    this.model.checkAnswer(chosenAnswer);
-  }
-
-  restartBtnHandler() {
-    this.model.restartQuiz();
-  }
-
-  isLastQuestion() {
-    return this.model.isLastQuestion();
-  }
-
-  isCorrectAnswer(chosenAnswer) {
-    return this.model.isCorrectAnswer(chosenAnswer);
-  }
-
-  isNewBestScore() {
-    return this.model.isNewBestScore;
-  }
-
-  getResultData() {
-    return this.model.getResultData();
-  }
-
-  getCurrentQuestion() {
-    return this.model.getCurrentQuestion();
-  }
-
-  getQuestionAmount() {
-    return this.model.quiz.questions.length;
-  }
-
-  getScore() {
-    return this.model.score;
-  }
-
-  getBestScore() {
-    return this.model.bestScore;
-  }
-
-  getCategory() {
-    return this.model.quiz.category;
-  }
-
-  getAnswerTime() {
-    return this.model.quiz.answerTime;
-  }
-
-  getQuestionIndex() {
-    return this.model.questionIndex;
-  }
-}
-
-class QuizView {
+export default class QuizView {
   constructor(controller) {
     this.controller = controller;
+    this.mount();
 
     this.questionAudios = [
       {
@@ -438,9 +164,9 @@ class QuizView {
   }
 
   displayCategory() {
-    const categoryScreen = document.querySelector('.header__quiz-category');
+    const titleScreen = document.querySelector('.header__quiz-category');
 
-    categoryScreen.innerText = this.controller.getCategory();
+    titleScreen.innerText = this.controller.getTitle();
   }
 
   displayQuestionImage() {
@@ -632,8 +358,88 @@ class QuizView {
     restartBtn.addEventListener('click', () => this.onRestartBtnClick());
     volumeBtn.addEventListener('click', () => this.onVolumeBtnClick());
   }
-}
 
-const quizModel = new QuizModel();
-const quizController = new QuizController(quizModel);
-const quizView = new QuizView(quizController);
+  mount() {
+    document.body.innerHTML = `<header class="header">
+    <h2 class="header__score">
+      Score: <span class="header__score-counter"></span>
+    </h2>
+    <div class="header__timer-category">
+      <h1 class="header__quiz-category"></h1>
+      <div class="header__game-timer">
+        <img
+          src="images/icons/timer-icon.svg"
+          alt="Your image disappeared..."
+          class="header__game-timer-item"
+        />
+        <p class="header__game-timer-number"></p>
+      </div>
+    </div>
+    <h2 class="header__best-score">
+      BS: <span class="header__best-score-counter"></span>
+    </h2>
+  </header>
+  <main class="game">
+    <div class="container flex-container">
+      <div class="game__question-illustration">
+        <img
+          class="game__question-illustration-item"
+          src=""
+          alt="Your image disappeared..."
+        />
+      </div>
+      <div class="game__extra-info">
+        <h3 class="game__questions-counter"></h3>
+        <button class="game__volume-btn">
+          <div
+            class="game__volume-btn-icon game__volume-btn-icon--muted"
+          ></div>
+        </button>
+      </div>
+      <h2 class="game__question"></h2>
+      <div class="game__answers">
+        <button class="game__answers-item"></button>
+        <button class="game__answers-item"></button>
+        <button class="game__answers-item"></button>
+        <button class="game__answers-item"></button>
+      </div>
+    </div>
+  </main>
+
+  <div class="game__result result display-none">
+    <h2 class="result__end-phrase"></h2>
+    <h2 class="result__total-score"></h2>
+    <h2 class="result__best-score"></h2>
+    <h3 class="result__correct-answer-amount"></h3>
+    <h3 class="result__wrong-answer-amount"></h3>
+    <button class="result__game-restart">Restart</button>
+  </div>
+
+  <audio
+    src="audio/soundtracks/In Game Music (30 Second Countdown) 1_3.mp3"
+    id="1q-countdown30s"
+    type="audio/mpeg"
+  ></audio>
+  <audio
+    src="audio/soundtracks/In Game Music (30 Second Countdown) 2_3.mp3"
+    id="2q-countdown30s"
+    type="audio/mpeg"
+  ></audio>
+  <audio
+    src="audio/soundtracks/In Game Music (30 Second Countdown) 3_3.mp3"
+    id="3q-countdown30s"
+    type="audio/mpeg"
+  ></audio>
+
+  <audio
+    src="audio/effects/mixkit-correct-answer-tone-2870.wav"
+    id="correct-answer"
+    type="audio/wav"
+  ></audio>
+  <audio
+    src="audio/effects/wrong-answer-129254.mp3"
+    id="wrong-answer"
+    type="audio/mpeg"
+  ></audio>`;
+  }
+}

@@ -1,0 +1,54 @@
+.quizes {
+  padding-top: 70px;
+  background: linear-gradient(180deg, $dark-purple 0%, $light-purple 100%);
+  min-height: 100vh;
+
+  &-container {
+    display: grid;
+    grid-template-columns: max(1fr) max(1fr);
+    gap: 15px;
+  }
+}
+
+.quiz {
+  @include set-background($white);
+  border-radius: 10px;
+
+  &__title {
+    text-align: center;
+    font-size: 18px;
+  }
+
+  &__img {
+    height: 20vh;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    &-item {
+      height: 100%;
+      width: 100%;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+  }
+}
+
+@include tablet {
+  .quizes-container {
+    grid-template-columns: repeat(3, max(1fr));
+  }
+}
+
+@include desktop {
+  .quizes .container {
+    padding: 20px 40px;
+  }
+
+  .header-home {
+    height: 72px;
+  }
+
+  .quizes-container {
+    grid-template-columns: repeat(5, max(1fr));
+  }
+}
