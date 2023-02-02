@@ -1,3 +1,5 @@
+import HomeView from './HomeView.js';
+
 export default class QuizView {
   constructor(controller) {
     this.controller = controller;
@@ -98,6 +100,10 @@ export default class QuizView {
     } else {
       this.playQuestionAudio();
     }
+  }
+
+  onMenuBtnClick() {
+    const homeView = new HomeView();
   }
 
   showQuiz() {
@@ -349,6 +355,7 @@ export default class QuizView {
     const answerBtns = document.querySelectorAll('.game__answers-item');
     const restartBtn = document.querySelector('.result__game-restart');
     const volumeBtn = document.querySelector('.game__volume-btn');
+    const menuBtn = document.querySelector('.result__menu');
 
     answerBtns.forEach((answerBtn) =>
       answerBtn.addEventListener('click', (e) => {
@@ -357,6 +364,7 @@ export default class QuizView {
     );
     restartBtn.addEventListener('click', () => this.onRestartBtnClick());
     volumeBtn.addEventListener('click', () => this.onVolumeBtnClick());
+    menuBtn.addEventListener('click', () => this.onMenuBtnClick());
   }
 
   mount() {
@@ -407,12 +415,15 @@ export default class QuizView {
   </main>
 
   <div class="game__result result display-none">
-    <h2 class="result__end-phrase"></h2>
-    <h2 class="result__total-score"></h2>
-    <h2 class="result__best-score"></h2>
-    <h3 class="result__correct-answer-amount"></h3>
-    <h3 class="result__wrong-answer-amount"></h3>
-    <button class="result__game-restart">Restart</button>
+      <h2 class="result__end-phrase"></h2>
+      <h2 class="result__total-score"></h2>
+      <h2 class="result__best-score"></h2>
+      <h2 class="result__correct-answer-amount"></h2>
+      <h2 class="result__wrong-answer-amount"></h2>
+      <div class="result__btns">
+        <button class="result__game-restart">Restart</button>
+        <button class="result__menu">Menu</button>
+      </div>
   </div>
 
   <audio

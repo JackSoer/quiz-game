@@ -6,6 +6,7 @@ import quizes from './quizes.js';
 export default class HomeView {
   constructor() {
     this.quizes = quizes;
+    this.mount();
     this.homeDiv = document.querySelector('.quizes-container');
 
     this.renderCategories();
@@ -102,5 +103,16 @@ export default class HomeView {
     quizesBtns.forEach((quizBtn) =>
       quizBtn.addEventListener('click', (e) => this.onQuizClick(e))
     );
+  }
+
+  mount() {
+    document.body.innerHTML = `<header class="header header-home">
+    <h1 class="header__title">Quizzes</h1>
+  </header>
+  <main class="main">
+    <div class="quizes">
+      <div class="container quizes-container"></div>
+    </div>
+  </main>`;
   }
 }

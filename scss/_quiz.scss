@@ -43,7 +43,7 @@
     &-item {
       @include center;
       font-weight: 700;
-      padding: 0 15px;
+      padding: 10px;
       border: 3px $extra-light-purple solid;
       border-radius: 8px;
       @include set-background($white);
