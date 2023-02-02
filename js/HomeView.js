@@ -15,23 +15,35 @@ export default class HomeView {
 
   renderCategories() {
     let categoryBtn;
+    let categoryImg;
+    const categories = this.getAllCategories();
 
-    quizes.forEach((quiz) => {
+    categories.forEach((category) => {
+      categoryImg =
+        this.getQuizesByCategory(category)[0].questions[0].questionImg;
       categoryBtn = `<button class="quizes__categories">
       <div class="quizes__quiz-item quiz">
         <div class="quiz__img">
           <img
-            src="images/question-images/${quiz.questions[0].questionImg}"
+            src="images/question-images/${categoryImg}"
             alt="Your image dissapeared"
             class="quiz__img-item"
           />
         </div>
-        <h2 class="quiz__title">${quiz.category}</h2>
+        <h2 class="quiz__title">${category}</h2>
       </div>
     </button>`;
 
       this.homeDiv.innerHTML += categoryBtn;
     });
+  }
+
+  getAllCategories() {
+    const categories = new Set();
+
+    quizes.forEach((quiz) => categories.add(quiz.category));
+
+    return Array.from(categories);
   }
 
   renderQuizes(category) {
