@@ -261,9 +261,9 @@ const quizes = [
         question: 'What speed can Spider-Man reach?',
         answers: [
           { answer: '200 miles per hour', isCorrect: true },
-          { answer: '200 miles per hour', isCorrect: false },
-          { answer: '200 miles per hour', isCorrect: false },
-          { answer: '200 miles per hour', isCorrect: false },
+          { answer: '100 miles per hour', isCorrect: false },
+          { answer: '500 miles per hour', isCorrect: false },
+          { answer: '700 miles per hour', isCorrect: false },
         ],
       },
       {
@@ -278,6 +278,111 @@ const quizes = [
           },
           { answer: 'The idea came to him in a dream', isCorrect: false },
           { answer: 'He had a pet spider called Peter', isCorrect: false },
+        ],
+      },
+    ],
+  },
+  {
+    category: 'Films',
+    title: 'Avatar',
+    answerTime: 30,
+    questions: [
+      {
+        id: 1,
+        questionImg: 'avatar-system.webp',
+        question:
+          'True or False: Avatar takes place on a planet in the Alpha Centauri star system.',
+        answers: [
+          { answer: 'True', isCorrect: false },
+          { answer: 'False', isCorrect: true },
+        ],
+      },
+      {
+        id: 2,
+        questionImg: 'avatar-system.webp',
+        question:
+          'This lush CG land, which drove many viewers into a depression by dint of their inability to live there for real, is called _______.',
+        answers: [
+          { answer: 'Pangaea', isCorrect: false },
+          { answer: 'Pandora', isCorrect: true },
+          { answer: 'Batuu', isCorrect: false },
+          { answer: 'Panthera', isCorrect: false },
+        ],
+      },
+      {
+        id: 3,
+        questionImg: 'avatar-system.webp',
+        question: 'The film takes place in the year ...',
+        answers: [
+          { answer: '2084', isCorrect: false },
+          { answer: '2154', isCorrect: true },
+          { answer: '2231', isCorrect: false },
+          { answer: '2300', isCorrect: false },
+        ],
+      },
+      {
+        id: 4,
+        questionImg: 'avatar-system.webp',
+        question: 'The native humanoid aliens are called the ______.',
+        answers: [
+          { answer: "Na'boo", isCorrect: false },
+          { answer: "Ra'vi", isCorrect: false },
+          { answer: "Na'vi", isCorrect: true },
+          { answer: "Na'tu'li", isCorrect: false },
+        ],
+      },
+      {
+        id: 5,
+        questionImg: 'avatar-system.webp',
+        question:
+          'The story is from the perspective of an outsider, though. What’s the name of the main character?',
+        answers: [
+          { answer: 'Jim Scully', isCorrect: false },
+          { answer: 'James P. "Sulley" Sullivan', isCorrect: false },
+          { answer: 'Chesley "Sully" Sullenberger', isCorrect: false },
+          { answer: 'Jake Sully', isCorrect: true },
+        ],
+      },
+      {
+        id: 6,
+        questionImg: 'avatar-system.webp',
+        question:
+          'The Resources Development Administration has set up operations on the planet to mine a powerful substance called __________.',
+        answers: [
+          { answer: 'Adamantium', isCorrect: false },
+          { answer: 'Unobtainium', isCorrect: true },
+          { answer: 'Magufinium', isCorrect: false },
+          { answer: 'Ethereum', isCorrect: false },
+        ],
+      },
+      {
+        id: 7,
+        questionImg: 'avatar-system.webp',
+        question:
+          'In his new avatar body, our hero becomes bodyguard to scientist Dr. Grace Augustine, played by Sigourney Weaver. In one haunting mo-cap scene, Grace’s avatar plays basketball in a crop top for ____.',
+        answers: [
+          { answer: 'MIT', isCorrect: false },
+          {
+            answer: 'Harvard',
+            isCorrect: false,
+          },
+          { answer: 'Berkeley', isCorrect: false },
+          { answer: 'Stanford', isCorrect: true },
+        ],
+      },
+      {
+        id: 8,
+        questionImg: 'avatar-system.webp',
+        question:
+          'Our hero meets Neytiri, played by Zoe Saldaña, when she saves him from ...',
+        answers: [
+          { answer: 'A direhorse attack', isCorrect: false },
+          {
+            answer: 'A leonopteryx attack',
+            isCorrect: false,
+          },
+          { answer: 'A viperwolf attack', isCorrect: true },
+          { answer: 'A saberhog attack', isCorrect: false },
         ],
       },
     ],

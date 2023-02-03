@@ -1,11 +1,11 @@
 import QuizModel from './QuizModel.js';
 import QuizController from './QuizController.js';
 import QuizView from './QuizView.js';
-import quizes from './quizes.js';
+import HomeContoller from './HomeContoller.js';
 
 export default class HomeView {
   constructor() {
-    this.quizes = quizes;
+    this.controller = new HomeContoller();
     this.mount();
     this.homeDiv = document.querySelector('.quizes-container');
 
@@ -16,11 +16,12 @@ export default class HomeView {
   renderCategories() {
     let categoryBtn;
     let categoryImg;
-    const categories = this.getAllCategories();
+    const categories = this.controller.getAllCategories();
 
     categories.forEach((category) => {
       categoryImg =
-        this.getQuizesByCategory(category)[0].questions[0].questionImg;
+        this.controller.getQuizesByCategory(category)[0].questions[0]
+          .questionImg;
       categoryBtn = `<button class="quizes__categories">
       <div class="quizes__quiz-item quiz">
         <div class="quiz__img">
@@ -38,16 +39,8 @@ export default class HomeView {
     });
   }
 
-  getAllCategories() {
-    const categories = new Set();
-
-    quizes.forEach((quiz) => categories.add(quiz.category));
-
-    return Array.from(categories);
-  }
-
   renderQuizes(category) {
-    const quizes = this.getQuizesByCategory(category);
+    const quizes = this.controller.getQuizesByCategory(category);
 
     let quizBtn;
 
@@ -71,14 +64,6 @@ export default class HomeView {
     this.addBackBtn();
   }
 
-  getQuizesByCategory(category) {
-    return this.quizes.filter((quiz) => quiz.category === category);
-  }
-
-  getQuizesByTitle(title) {
-    return this.quizes.filter((quiz) => quiz.title === title);
-  }
-
   onCategoryClick(e) {
     let category = e.target
       .closest('.quizes__quiz-item')
@@ -94,7 +79,7 @@ export default class HomeView {
       .closest('.quizes__quiz-item')
       .querySelector('.quiz__title').innerText;
 
-    const [quiz] = this.getQuizesByTitle(quizTitle);
+    const [quiz] = this.controller.getQuizesByTitle(quizTitle);
 
     this.clearContent;
 

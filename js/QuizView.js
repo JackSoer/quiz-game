@@ -58,12 +58,6 @@ export default class QuizView {
     answerBtns.forEach((answerBtn) => answerBtn.setAttribute('disabled', true));
   }
 
-  enableAnswerBtns() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
-
-    answerBtns.forEach((answerBtn) => answerBtn.removeAttribute('disabled'));
-  }
-
   playWrongAnswerEffect() {
     const wrongAnswerEffect = document.querySelector('#wrong-answer');
 
@@ -136,15 +130,34 @@ export default class QuizView {
   }
 
   displayAnswers() {
-    this.enableAnswerBtns();
-    this.clearColorOnBtn();
+    this.renderAnswersBtns();
 
     const answerBtns = document.querySelectorAll('.game__answers-item');
     const answers = this.controller.getCurrentQuestion().answers;
 
+    answerBtns.forEach((answerBtn) =>
+      answerBtn.addEventListener('click', (e) => {
+        this.onAnswerBtnClick(e);
+      })
+    );
+
     answerBtns.forEach(
       (answerBtn, index) => (answerBtn.innerText = answers[index].answer)
     );
+  }
+
+  renderAnswersBtns() {
+    const answers = this.controller.getCurrentQuestion().answers;
+    const gameAnswersDiv = document.querySelector('.game__answers');
+    let answerBtn;
+
+    gameAnswersDiv.innerHTML = '';
+
+    answers.forEach((answer, index) => {
+      answerBtn = document.createElement('button');
+      answerBtn.classList.add('game__answers-item');
+      gameAnswersDiv.appendChild(answerBtn);
+    });
   }
 
   displayQuestionCounter() {
@@ -212,15 +225,6 @@ export default class QuizView {
     clearInterval(this.timer);
   }
 
-  clearColorOnBtn() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
-
-    answerBtns.forEach((answerBtn) => {
-      answerBtn.classList.remove('game__correct-answer');
-      answerBtn.classList.remove('game__wrong-answer');
-    });
-  }
-
   showResult() {
     const resultScreen = document.querySelector('.result');
     resultScreen.classList.remove('display-none');
@@ -231,6 +235,7 @@ export default class QuizView {
 
     this.renderResult();
     this.muteSound();
+    this.removeOldTimer();
   }
 
   renderResult() {
@@ -352,16 +357,10 @@ export default class QuizView {
   }
 
   bindListeners() {
-    const answerBtns = document.querySelectorAll('.game__answers-item');
     const restartBtn = document.querySelector('.result__game-restart');
     const volumeBtn = document.querySelector('.game__volume-btn');
     const menuBtn = document.querySelector('.result__menu');
 
-    answerBtns.forEach((answerBtn) =>
-      answerBtn.addEventListener('click', (e) => {
-        this.onAnswerBtnClick(e);
-      })
-    );
     restartBtn.addEventListener('click', () => this.onRestartBtnClick());
     volumeBtn.addEventListener('click', () => this.onVolumeBtnClick());
     menuBtn.addEventListener('click', () => this.onMenuBtnClick());
@@ -406,10 +405,6 @@ export default class QuizView {
       </div>
       <h2 class="game__question"></h2>
       <div class="game__answers">
-        <button class="game__answers-item"></button>
-        <button class="game__answers-item"></button>
-        <button class="game__answers-item"></button>
-        <button class="game__answers-item"></button>
       </div>
     </div>
   </main>
