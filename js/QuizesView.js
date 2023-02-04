@@ -1,11 +1,11 @@
 import QuizModel from './QuizModel.js';
 import QuizController from './QuizController.js';
 import QuizView from './QuizView.js';
-import HomeContoller from './HomeContoller.js';
+import QuizesController from './QuizesController.js';
 
 export default class HomeView {
   constructor() {
-    this.controller = new HomeContoller();
+    this.controller = new QuizesController();
     this.mount();
     this.homeDiv = document.querySelector('.quizes-container');
 

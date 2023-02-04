@@ -1,3 +1,3 @@
-import HomeView from './HomeView.js';
+import QuizesView from './QuizesView.js';
 
-const homeView = new HomeView();
+new QuizesView();

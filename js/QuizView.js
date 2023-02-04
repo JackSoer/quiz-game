@@ -1,4 +1,4 @@
-import HomeView from './HomeView.js';
+import QuizesView from './QuizesView.js';
 
 export default class QuizView {
   constructor(controller) {
@@ -97,7 +97,7 @@ export default class QuizView {
   }
 
   onMenuBtnClick() {
-    const homeView = new HomeView();
+    new QuizesView();
   }
 
   showQuiz() {

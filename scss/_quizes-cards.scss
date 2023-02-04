@@ -6,7 +6,7 @@
   &-container {
     display: grid;
     grid-template-columns: max(1fr) max(1fr);
-    gap: 15px;
+    gap: 20px;
   }
 
   &__back-btn {
@@ -27,6 +27,7 @@
 .quiz {
   @include set-background($white);
   border-radius: 10px;
+  width: 100%;
 
   &__title {
     padding: 5px;
