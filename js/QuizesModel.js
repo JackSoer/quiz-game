@@ -305,7 +305,7 @@ export default class QuizesModel {
           },
           {
             id: 2,
-            questionImg: 'avatar-system.webp',
+            questionImg: 'pandora.webp',
             question:
               'This lush CG land, which drove many viewers into a depression by dint of their inability to live there for real, is called _______.',
             answers: [
@@ -317,7 +317,7 @@ export default class QuizesModel {
           },
           {
             id: 3,
-            questionImg: 'avatar-system.webp',
+            questionImg: 'avatar-year.webp',
             question: 'The film takes place in the year ...',
             answers: [
               { answer: '2084', isCorrect: false },
@@ -328,7 +328,7 @@ export default class QuizesModel {
           },
           {
             id: 4,
-            questionImg: 'avatar-system.webp',
+            questionImg: 'navi.jpg',
             question: 'The native humanoid aliens are called the ______.',
             answers: [
               { answer: "Na'boo", isCorrect: false },
@@ -339,7 +339,7 @@ export default class QuizesModel {
           },
           {
             id: 5,
-            questionImg: 'avatar-system.webp',
+            questionImg: 'JakeSully.jpg',
             question:
               'The story is from the perspective of an outsider, though. What’s the name of the main character?',
             answers: [
@@ -351,12 +351,12 @@ export default class QuizesModel {
           },
           {
             id: 6,
-            questionImg: 'avatar-system.webp',
+            questionImg: 'Unobtanium.webp',
             question:
               'The Resources Development Administration has set up operations on the planet to mine a powerful substance called __________.',
             answers: [
               { answer: 'Adamantium', isCorrect: false },
-              { answer: 'Unobtainium', isCorrect: true },
+              { answer: 'Unobtanium', isCorrect: true },
               { answer: 'Magufinium', isCorrect: false },
               { answer: 'Ethereum', isCorrect: false },
             ],
@@ -378,7 +378,7 @@ export default class QuizesModel {
           },
           {
             id: 8,
-            questionImg: 'avatar-system.webp',
+            questionImg: 'viperwolf.webp',
             question:
               'Our hero meets Neytiri, played by Zoe Saldaña, when she saves him from ...',
             answers: [
@@ -516,9 +516,5 @@ export default class QuizesModel {
         ],
       },
     ];
-  }
-
-  addQuiz(quiz) {
-    this.quizes.push(quiz);
   }
 }

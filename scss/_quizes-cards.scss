@@ -11,8 +11,8 @@
 
   &__back-btn {
     position: fixed;
-    right: 5px;
-    bottom: 5px;
+    right: 8px;
+    bottom: 8px;
     z-index: 2000;
     @include center;
     height: 65px;
@@ -21,6 +21,11 @@
     font-weight: 700;
     border: 3px $extra-light-purple solid;
     @include set-background($white);
+  }
+
+  &__create-quiz-btn {
+    left: 8px;
+    font-size: 30px;
   }
 }
 
